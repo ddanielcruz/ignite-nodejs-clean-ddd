@@ -17,14 +17,17 @@ interface QuestionAttr {
 }
 
 export class Question extends Entity<QuestionAttr> {
-  static create(attr: Optional<QuestionAttr, 'createdAt' | 'slug'>, id?: UniqueEntityId): Question {
+  static create(
+    attr: Optional<QuestionAttr, 'createdAt' | 'slug'>,
+    id?: UniqueEntityId,
+  ): Question {
     return new Question(
       {
         ...attr,
         slug: attr.slug || Slug.createFromText(attr.title),
-        createdAt: attr.createdAt || new Date()
+        createdAt: attr.createdAt || new Date(),
       },
-      id
+      id,
     )
   }
 

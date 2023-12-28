@@ -4,7 +4,7 @@ import { AnswersRepository } from '../repositories/answers-repository'
 let sut: AnswerQuestion
 
 const fakeAnswersRepository: AnswersRepository = {
-  async create() {}
+  async create() {},
 }
 
 describe('Answer question', () => {
@@ -16,7 +16,7 @@ describe('Answer question', () => {
     const { answer } = await sut.execute({
       instructorId: 'any_instructor_id',
       questionId: 'any_question_id',
-      content: 'any_content'
+      content: 'any_content',
     })
 
     expect(answer.id).toBeTruthy()

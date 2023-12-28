@@ -18,12 +18,12 @@ export class AnswerQuestion {
   async execute({
     instructorId,
     questionId,
-    content
+    content,
   }: AnswerQuestionRequest): Promise<AnswerQuestionResponse> {
     const answer = Answer.create({
       authorId: new UniqueEntityId(instructorId),
       questionId: new UniqueEntityId(questionId),
-      content
+      content,
     })
 
     await this.answersRepository.create(answer)

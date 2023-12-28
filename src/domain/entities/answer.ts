@@ -11,7 +11,10 @@ export interface AnswerAttr {
 }
 
 export class Answer extends Entity<AnswerAttr> {
-  static create(attr: Optional<AnswerAttr, 'createdAt'>, id?: UniqueEntityId): Answer {
+  static create(
+    attr: Optional<AnswerAttr, 'createdAt'>,
+    id?: UniqueEntityId,
+  ): Answer {
     return new Answer({ ...attr, createdAt: new Date() }, id)
   }
 
