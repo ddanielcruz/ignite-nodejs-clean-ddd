@@ -1,0 +1,17 @@
+{
+  "name": "ignite-nodejs-clean-ddd",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest watch --passWithNoTests"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "typescript": "^5.3.3",
+    "vite-tsconfig-paths": "^4.2.3",
+    "vitest": "^1.1.0"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.10"
+  }
+}
