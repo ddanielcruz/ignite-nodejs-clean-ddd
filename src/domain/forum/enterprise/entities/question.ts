@@ -6,7 +6,7 @@ import { Optional } from '@/core/types/optional'
 
 import { Slug } from './value-objects/slug'
 
-interface QuestionAttr {
+export interface QuestionAttr {
   authorId: UniqueEntityId
   bestAnswerId?: UniqueEntityId
   slug: Slug

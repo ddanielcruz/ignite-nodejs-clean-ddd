@@ -1,15 +1,14 @@
+import { InMemoryAnswersRepository } from 'tests/repositories/in-memory-answers-repository'
+
 import { AnswerQuestion } from './answer-question'
-import { AnswersRepository } from '../repositories/answers-repository'
 
 let sut: AnswerQuestion
-
-const fakeAnswersRepository: AnswersRepository = {
-  async create() {},
-}
+let inMemoryAnswersRepository: InMemoryAnswersRepository
 
 describe('Answer question', () => {
   beforeEach(() => {
-    sut = new AnswerQuestion(fakeAnswersRepository)
+    inMemoryAnswersRepository = new InMemoryAnswersRepository()
+    sut = new AnswerQuestion(inMemoryAnswersRepository)
   })
 
   it('should create an answer', async () => {
@@ -21,5 +20,6 @@ describe('Answer question', () => {
 
     expect(answer.id).toBeTruthy()
     expect(answer.content).toBe('any_content')
+    expect(inMemoryAnswersRepository.items.at(0)?.id).toEqual(answer.id)
   })
 })
