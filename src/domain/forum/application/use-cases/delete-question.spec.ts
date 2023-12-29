@@ -12,7 +12,7 @@ describe('Delete Question', () => {
     sut = new DeleteQuestion(inMemoryQuestionsRepository)
   })
 
-  it('should delete a question', async () => {
+  it('should be able to delete a question', async () => {
     const questionToDelete = makeQuestion()
     await inMemoryQuestionsRepository.create(questionToDelete)
     await sut.execute({

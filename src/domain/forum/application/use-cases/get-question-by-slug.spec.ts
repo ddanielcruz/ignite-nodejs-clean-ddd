@@ -12,7 +12,7 @@ describe('Get Question By Slug', () => {
     sut = new GetQuestionBySlug(inMemoryQuestionsRepository)
   })
 
-  it('should get a question by slug', async () => {
+  it('should be able to get a question by slug', async () => {
     const newQuestion = makeQuestion()
     await inMemoryQuestionsRepository.create(newQuestion)
     const { question } = await sut.execute({ slug: newQuestion.slug.value })
