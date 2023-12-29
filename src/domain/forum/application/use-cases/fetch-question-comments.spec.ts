@@ -23,7 +23,9 @@ describe('Fetch Question Comments', () => {
       makeQuestionComment({ questionId: question.id }),
     )
 
-    const { comments } = await sut.execute({
+    const {
+      value: { comments },
+    } = await sut.execute({
       questionId: question.id.value,
       page: 1,
     })
@@ -38,7 +40,9 @@ describe('Fetch Question Comments', () => {
         makeQuestionComment({ questionId: question.id }),
       )
     }
-    const { comments } = await sut.execute({
+    const {
+      value: { comments },
+    } = await sut.execute({
       questionId: question.id.value,
       page: 2,
     })

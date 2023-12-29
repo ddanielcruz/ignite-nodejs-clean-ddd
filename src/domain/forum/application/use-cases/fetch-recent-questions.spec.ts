@@ -23,7 +23,9 @@ describe('Fetch Recent Questions', () => {
       makeQuestion({ createdAt: new Date('2021-01-03') }),
     )
 
-    const { questions } = await sut.execute({ page: 1 })
+    const {
+      value: { questions },
+    } = await sut.execute({ page: 1 })
 
     expect(questions).toHaveLength(3)
     expect(questions).toEqual(
@@ -42,7 +44,7 @@ describe('Fetch Recent Questions', () => {
       )
     }
 
-    const { questions } = await sut.execute({ page: 2 })
-    expect(questions).toHaveLength(2)
+    const result = await sut.execute({ page: 2 })
+    expect(result.value.questions).toHaveLength(2)
   })
 })

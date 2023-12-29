@@ -1,3 +1,7 @@
+import { Either, left, right } from '@/core/either'
+
+import { NotAllowedError } from './errors/not-allowed-error'
+import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { Question } from '../../enterprise/entities/question'
 import { QuestionsRepository } from '../repositories/questions-repository'
 
@@ -8,9 +12,10 @@ interface EditQuestionRequest {
   content: string
 }
 
-interface EditQuestionResponse {
-  question: Question
-}
+type EditQuestionResponse = Either<
+  ResourceNotFoundError | NotAllowedError,
+  { question: Question }
+>
 
 export class EditQuestion {
   constructor(private readonly questionsRepository: QuestionsRepository) {}
@@ -23,11 +28,11 @@ export class EditQuestion {
   }: EditQuestionRequest): Promise<EditQuestionResponse> {
     const question = await this.questionsRepository.findById(questionId)
     if (!question) {
-      throw new Error('Question not found.')
+      return left(new ResourceNotFoundError())
     }
 
     if (question.authorId.value !== authorId) {
-      throw new Error('Forbidden.')
+      return left(new NotAllowedError())
     }
 
     question.title = title
@@ -35,6 +40,6 @@ export class EditQuestion {
 
     await this.questionsRepository.save(question)
 
-    return { question }
+    return right({ question })
   }
 }

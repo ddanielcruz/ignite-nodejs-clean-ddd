@@ -25,7 +25,9 @@ describe('Fetch Question Answers', () => {
       makeAnswer({ questionId: question.id }),
     )
 
-    const { answers } = await sut.execute({
+    const {
+      value: { answers },
+    } = await sut.execute({
       questionId: question.id.value,
       page: 1,
     })
@@ -41,7 +43,9 @@ describe('Fetch Question Answers', () => {
       )
     }
 
-    const { answers } = await sut.execute({
+    const {
+      value: { answers },
+    } = await sut.execute({
       questionId: question.id.value,
       page: 2,
     })
