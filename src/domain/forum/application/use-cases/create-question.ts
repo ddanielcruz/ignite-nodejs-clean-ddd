@@ -3,11 +3,14 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Either, right } from '@/core/either'
 
 import { QuestionsRepository } from '../repositories/questions-repository'
+import { QuestionAttachment } from '../../enterprise/entities/question-attachment'
+import { QuestionAttachmentList } from '../../enterprise/entities/question-attachment-list'
 
 interface CreateQuestionRequest {
   authorId: string
   title: string
   content: string
+  attachmentIds: string[]
 }
 
 type CreateQuestionResponse = Either<never, { question: Question }>
@@ -23,6 +26,15 @@ export class CreateQuestion {
       title: request.title,
       content: request.content,
     })
+
+    question.attachments = new QuestionAttachmentList(
+      request.attachmentIds.map((attachmentId) =>
+        QuestionAttachment.create({
+          questionId: question.id,
+          attachmentId: new UniqueEntityId(attachmentId),
+        }),
+      ),
+    )
 
     await this.questionsRepository.create(question)
 

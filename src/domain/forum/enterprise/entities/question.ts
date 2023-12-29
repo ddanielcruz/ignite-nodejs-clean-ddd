@@ -1,10 +1,11 @@
 import dayjs from 'dayjs'
 
-import { Entity } from '@/core/entities/entity'
+import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 
 import { Slug } from './value-objects/slug'
+import { QuestionAttachmentList } from './question-attachment-list'
 
 export interface QuestionAttr {
   authorId: UniqueEntityId
@@ -12,25 +13,12 @@ export interface QuestionAttr {
   slug: Slug
   title: string
   content: string
+  attachments: QuestionAttachmentList
   createdAt: Date
   updatedAt?: Date
 }
 
-export class Question extends Entity<QuestionAttr> {
-  static create(
-    attr: Optional<QuestionAttr, 'createdAt' | 'slug'>,
-    id?: UniqueEntityId,
-  ): Question {
-    return new Question(
-      {
-        ...attr,
-        slug: attr.slug || Slug.createFromText(attr.title),
-        createdAt: attr.createdAt || new Date(),
-      },
-      id,
-    )
-  }
-
+export class Question extends AggregateRoot<QuestionAttr> {
   get authorId(): UniqueEntityId {
     return this.attr.authorId
   }
@@ -67,6 +55,15 @@ export class Question extends Entity<QuestionAttr> {
     this.touch()
   }
 
+  get attachments(): QuestionAttachmentList {
+    return this.attr.attachments
+  }
+
+  set attachments(value: QuestionAttachmentList) {
+    this.attr.attachments = value
+    this.touch()
+  }
+
   get createdAt(): Date {
     return this.attr.createdAt
   }
@@ -77,6 +74,21 @@ export class Question extends Entity<QuestionAttr> {
 
   get isNew(): boolean {
     return dayjs().diff(this.createdAt, 'days') <= 3
+  }
+
+  static create(
+    attr: Optional<QuestionAttr, 'createdAt' | 'slug' | 'attachments'>,
+    id?: UniqueEntityId,
+  ): Question {
+    return new Question(
+      {
+        ...attr,
+        slug: attr.slug || Slug.createFromText(attr.title),
+        attachments: attr.attachments || new QuestionAttachmentList([]),
+        createdAt: attr.createdAt || new Date(),
+      },
+      id,
+    )
   }
 
   private touch(): void {
