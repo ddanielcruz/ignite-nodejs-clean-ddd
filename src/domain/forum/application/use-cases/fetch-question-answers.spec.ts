@@ -7,7 +7,7 @@ import { makeAnswer } from 'tests/factories/make-answer'
 let sut: FetchQuestionAnswers
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 
-describe('Fetch Recent Questions', () => {
+describe('Fetch Question Answers', () => {
   beforeEach(() => {
     inMemoryAnswersRepository = new InMemoryAnswersRepository()
     sut = new FetchQuestionAnswers(inMemoryAnswersRepository)

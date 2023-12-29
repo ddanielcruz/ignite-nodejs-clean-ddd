@@ -11,13 +11,6 @@ export interface AnswerAttr {
 }
 
 export class Answer extends Entity<AnswerAttr> {
-  static create(
-    attr: Optional<AnswerAttr, 'createdAt'>,
-    id?: UniqueEntityId,
-  ): Answer {
-    return new Answer({ ...attr, createdAt: new Date() }, id)
-  }
-
   get content(): string {
     return this.attr.content
   }
@@ -45,6 +38,13 @@ export class Answer extends Entity<AnswerAttr> {
 
   get excerpt(): string {
     return this.content.slice(0, 120).trim().concat('...')
+  }
+
+  static create(
+    attr: Optional<AnswerAttr, 'createdAt'>,
+    id?: UniqueEntityId,
+  ): Answer {
+    return new Answer({ ...attr, createdAt: attr.createdAt || new Date() }, id)
   }
 
   private touch(): void {
